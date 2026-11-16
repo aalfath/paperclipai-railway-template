@@ -27,7 +27,8 @@ All are set by the template; you don't have to type anything.
 | `PAPERCLIP_AGENT_JWT_SECRET` | generated, 64 hex characters (agent tokens) |
 | `PAPERCLIP_TOOL_ACTION_SIGNING_SECRET` | generated, 64 hex characters (signed tool-action approvals) |
 | `PORT` | `3100` |
-| `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY` | optional provider keys for the bundled Codex, Claude Code and Gemini CLIs; you can also connect providers later in Paperclip |
+
+The image includes the Claude Code, Codex, OpenCode and Gemini CLIs. Connect a provider in Paperclip under **Apps → Connections** (subscription sign-in or an API key), or add a key such as `ANTHROPIC_API_KEY` or `OPENAI_API_KEY` to the Paperclip service yourself.
 
 Keep the generated secrets as they are after the first deploy: changing them signs everyone out and invalidates agent tokens and pending approvals.
 
