@@ -1,0 +1,33 @@
+#!/bin/sh
+# Prints a one-time invite URL for the first Paperclip admin (the instance owner).
+#
+# Public deployments don't offer the browser "Claim this instance" button, so the
+# first admin comes from Paperclip's CLI invite. That command needs a config file,
+# which the Docker image never writes. This script writes a minimal one to /tmp,
+# runs the command, and deletes the file. Nothing is written under /paperclip,
+# because the server would read a config there at boot.
+#
+# Usage, from your machine:  railway ssh --service Paperclip paperclip-claim
+set -eu
+
+: "${PAPERCLIP_PUBLIC_URL:?PAPERCLIP_PUBLIC_URL is not set}"
+: "${DATABASE_URL:?DATABASE_URL is not set}"
+
+cfg="$(mktemp /tmp/paperclip-claim.XXXXXX)"
+trap 'rm -f "$cfg"' EXIT INT TERM
+cat > "$cfg" <<JSON
+{"\$meta":{"version":1,"updatedAt":"$(date -u +%Y-%m-%dT%H:%M:%SZ)","source":"configure"},
+ "database":{"mode":"postgres"},"logging":{"mode":"file"},"telemetry":{},
+ "server":{"deploymentMode":"authenticated","exposure":"public"},
+ "auth":{"baseUrlMode":"explicit","publicBaseUrl":"${PAPERCLIP_PUBLIC_URL}"}}
+JSON
+chmod 0644 "$cfg"
+
+# Same command as `pnpm paperclipai auth bootstrap-ceo`, without pnpm.
+cd /app
+set -- node cli/node_modules/tsx/dist/cli.mjs cli/src/index.ts auth bootstrap-ceo --config "$cfg" "$@"
+if [ "$(id -u)" = "0" ]; then
+  gosu node "$@"
+else
+  "$@"
+fi
