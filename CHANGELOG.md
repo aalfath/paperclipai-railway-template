@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026.1117.0 (2026-11-19)
+
+**Breaking changes (upstream, read before you update):**
+
+- **No way back to 2026.1106.0 without help.** Migration `0415` moves skill package contents out of Postgres into the configured storage (the `/paperclip` volume). Once it has run, an older Paperclip needs that data put back, so take a Postgres backup first if you might roll back.
+- The built-in Google Workspace connector is off by default; turn it on under **Settings → Experimental → Google Workspace connector (Paperclip)** if you used it on 2026.1106.0.
+- Each subtask gets its own execution workspace, agent-created task trees stop at parent → child, Enter submits replies (Shift+Enter for a new line), and local Codex and OpenCode agents stay warm for 5 minutes. See the [release notes](https://github.com/paperclipai/paperclip/releases/tag/v2026.1117.0) for the full list.
+
+Other:
+
+- Database migrations run automatically at start; companies, agents, tasks and users are kept. No template variables change.
+- Image: `ghcr.io/paperclipai/paperclip:2026.1117.0@sha256:bdf38d10544dc6c831e16dc027f23ad586353ef3be1a1b2c6979e63b956aceb1`.
+
 ## 2026.1106.0-r1 (2026-11-16)
 
 **Breaking for deployments of the old image-based template:** the template now needs a PostgreSQL database. Paperclip refuses to start in authenticated public mode with its embedded database, which is why deploys of the previous template version crash-looped. Existing projects from the old template don't follow this repo; deploy the template again and move your data if you need to.
