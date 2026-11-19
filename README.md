@@ -4,7 +4,7 @@
 
 This repo is the source of the [Paperclip Railway template](https://railway.com/deploy/paperclip-3). It runs [Paperclip](https://github.com/paperclipai/paperclip), an open-source control plane for teams of AI agents, as one authenticated web service with a Railway PostgreSQL database.
 
-**Version:** Paperclip `2026.1106.0`, from the official image `ghcr.io/paperclipai/paperclip:2026.1106.0@sha256:d6584f05cf57a4b26c117eb083725f18c1fe69ddafa7d16c9f8cce83f6fa17da`.
+**Version:** Paperclip `2026.1117.0`, from the official image `ghcr.io/paperclipai/paperclip:2026.1117.0@sha256:bdf38d10544dc6c831e16dc027f23ad586353ef3be1a1b2c6979e63b956aceb1`.
 
 ## What the template deploys
 
